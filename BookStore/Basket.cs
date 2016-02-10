@@ -7,16 +7,28 @@ namespace BookStore
 {
     public class Basket
     {
-        public int Size { get; private set;  }
+        private List<Book> books = new List<Book>();
+
+        public int Size 
+        {
+            get
+            {
+                return books.Count;
+            }
+        }
 
         public void Add(Book book)
         {
-            Size++;
+            if (book == null)
+            {
+                throw new Exception();
+            }
+            books.Add(book);
         }
 
         public Book[] GetBooks()
         {
-            throw new NotImplementedException();
+            return books.ToArray();
         }
     }
 }

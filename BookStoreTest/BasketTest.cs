@@ -12,6 +12,8 @@ namespace BookStoreTest
     [TestClass]
     public class BasketTest
     {
+        Basket basket;
+
         public BasketTest()
         {
             //
@@ -59,24 +61,37 @@ namespace BookStoreTest
         //
         #endregion
 
+        [TestInitialize()]
+        public void TestInitialize() 
+        {
+            basket = new Basket();
+        }
+
         [TestMethod]
         public void TestGivenAValidBasketWhenNoBookAddedThenBasketSizeIsZero()
         {
             // Arrange
-            Basket basket;
             // Act
-            basket = new Basket();
             // Assert            
             Assert.AreEqual(0, basket.Size);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void TestGivenAValidBasketWhenNullIsAddedThenExceptionIsThrown()
+        {
+            // Arrange
+            // Act
+            basket.Add(null);
+            // Assert            
         }
 
         [TestMethod]
         public void TestGivenAValidBasketWhenOneBookAddedThenBasketSizeIsOne()
         {
             // Arrange
-            Basket basket = new Basket();
-            // Act
             basket.Add(new Book());
+            // Act
             // Assert            
             Assert.AreEqual(1, basket.Size);
         }
@@ -85,10 +100,9 @@ namespace BookStoreTest
         public void TestGivenAValidBasketWhenTwoBooksAddedThenBasketSizeIsTwo()
         {
             // Arrange
-            Basket basket = new Basket();
+            basket.Add(new Book());
+            basket.Add(new Book());
             // Act
-            basket.Add(new Book());
-            basket.Add(new Book());
             // Assert            
             Assert.AreEqual(2, basket.Size);
         }
@@ -97,11 +111,43 @@ namespace BookStoreTest
         public void TestGivenAValidBasketWhenNoBookAddedThenGetBooksIsNotNull()
         {
             // Arrange
-            Basket basket;
             // Act
-            basket = new Basket();
             // Assert            
-            Assert.IsNotNull(basket.GetBooks());
+            Assert.IsNotNull(basket.GetBooks(), "test expected that GetBooks() would not return null");
+        }
+
+        [TestMethod]
+        public void TestGivenAValidBasketWhenNoBookAddedThenGetBooksLengthIsZero()
+        {
+            // Arrange
+            // Act
+            Book[] books = basket.GetBooks();
+            // Assert            
+            Assert.AreEqual(0, books.Length);
+        }
+
+        [TestMethod]
+        public void TestGivenAValidBasketWhenOneBookAddedThenGetBooksLengthIsOne()
+        {
+            // Arrange
+            basket.Add(new Book());
+            // Act
+            Book[] books = basket.GetBooks();
+            // Assert            
+            Assert.AreEqual(1, books.Length);
+        }
+
+        [TestMethod]
+        public void TestGivenAValidBasketWhenThreeBookAddedThenGetBooksLengthIsThree()
+        {
+            // Arrange
+            basket.Add(new Book());
+            basket.Add(new Book());
+            basket.Add(new Book());
+            // Act
+            Book[] books = basket.GetBooks();
+            // Assert
+            Assert.AreEqual(3, books.Length);
         }
     }
 }
