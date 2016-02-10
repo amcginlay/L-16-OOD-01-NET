@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FourPillarsAbstraction
 {
-    class DatabaseConnection
+    public abstract class DatabaseConnection
     {
         public abstract void ConnectToDatabase(string url);
     }
