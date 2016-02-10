@@ -8,7 +8,7 @@ namespace FourPillarsPolymorphism
 {
     class AdminLoginController : LoginController
     {
-        public void Login(string username)
+        public override void Login(string username)
         {
             Console.WriteLine("Logging in admin with username: " + username);
         }

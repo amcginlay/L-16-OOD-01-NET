@@ -19,7 +19,7 @@ namespace FourPillarsInheritance
             adminController.Login("Jane.Doe", "pass123");
             adminController.SetPermissions("Jane.Doe");
             //inherits from adminController so get its methods and all the methods inherited from userController
-            SuperAdminController superAdminController = new SuperAdminController();
+            AdminController superAdminController = new SuperAdminController();
             superAdminController.Login("Joe.Bloggs", "password");
             superAdminController.SetPermissions("Joe.Bloggs");
 
@@ -29,10 +29,10 @@ namespace FourPillarsInheritance
             Seller seller = new Seller();
             seller.name = "John.Smith";
             seller.role = "Seller";
-            //User user = new User(); // Oooops, no can do!
+            //AbstractUser user = new AbstractUser(); // Oooops, no can do!
 
-            // IDatabaseConnection connection = new IDatabaseConnection(); // Not possible!
-            IDatabaseConnection connection = new MicrosoftDbConnection();
+            //IDatabaseConnection connection1 = new IDatabaseConnection(); // Not possible!
+            IDatabaseConnection connection2 = new MicrosoftDbConnection();
 
             Console.ReadLine();
         }

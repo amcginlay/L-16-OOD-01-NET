@@ -16,6 +16,7 @@ namespace FourPillarsPolymorphism
             AdminLoginController adminLoginController = new AdminLoginController();
             adminLoginController.Login("Jane.Doe");
             adminLoginController.Login(321);
+
             Console.ReadLine();
         }
     }

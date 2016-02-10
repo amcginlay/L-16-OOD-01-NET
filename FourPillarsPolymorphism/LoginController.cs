@@ -8,7 +8,7 @@ namespace FourPillarsPolymorphism
 {
     class LoginController
     {
-        public void Login(string username)
+        public virtual void Login(string username)
         {
             Console.WriteLine("Logging in with username: " + username);
         }
