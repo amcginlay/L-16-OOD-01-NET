@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore", "BookStore\Book
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreTest", "BookStoreTest\BookStoreTest.csproj", "{60356FC1-89A1-43E4-935C-74FCD3A84FBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreConsoleApp", "BookStoreConsoleApp\BookStoreConsoleApp.csproj", "{3FFEFD5E-FFCF-4B33-A5FC-31CB69FB18A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{60356FC1-89A1-43E4-935C-74FCD3A84FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60356FC1-89A1-43E4-935C-74FCD3A84FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60356FC1-89A1-43E4-935C-74FCD3A84FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FFEFD5E-FFCF-4B33-A5FC-31CB69FB18A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFEFD5E-FFCF-4B33-A5FC-31CB69FB18A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFEFD5E-FFCF-4B33-A5FC-31CB69FB18A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFEFD5E-FFCF-4B33-A5FC-31CB69FB18A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
