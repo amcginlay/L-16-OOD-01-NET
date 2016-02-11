@@ -8,19 +8,28 @@ namespace TimeZones
 {
     public class TimeResolver
     {
-        private UTCTimeService utcTimeService;
+        private IUTCTimeService utcTimeService;
         
-        public TimeResolver(UTCTimeService utcTimeService)
+        public TimeResolver(IUTCTimeService utcTimeService)
         {
             if (utcTimeService == null)
                 throw new TimeZonesException();
 
             this.utcTimeService = utcTimeService;
         }
-        
+
+        private int TimeDiff(CityEnum city)
+        {
+            if (city == CityEnum.NewYork)
+                return -5;
+            return 0;
+        }
+
         public DateTime GetTime(CityEnum city)
         {
-            return utcTimeService.GetTime();
+            var currentUtcTime = utcTimeService.GetTime();
+            var timeDiff = TimeDiff(city);
+            return currentUtcTime.AddHours(timeDiff);
         }
     }
 }

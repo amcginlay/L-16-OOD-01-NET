@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace TimeZones
 {
-    public enum CityEnum { London };
+    public enum CityEnum { London, NewYork };
 }

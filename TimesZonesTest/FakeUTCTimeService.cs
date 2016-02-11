@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TimeZones;
 
-namespace TimeZones
+namespace TimesZonesTest
 {
-    public class UTCTimeService : IUTCTimeService
+    public class xFakeUTCTimeService : IUTCTimeService
     {
         public DateTime GetTime()
         {
-            return DateTime.UtcNow;
+            return new DateTime(1900, 1, 1, 0, 0, 0);
         }
     }
 }

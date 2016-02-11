@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TimeZones;
 using System.Threading;
+using Moq;
 
 namespace TimesZonesTest
 {
@@ -74,14 +75,49 @@ namespace TimesZonesTest
         public void TestGivenAValidTimeResolverWhenGetTimeForLondonIsCalledThenTimeMatchesUtc()
         {
             //arrange
-            var utcTimeService = new UTCTimeService();
-            var timeResolver = new TimeResolver(utcTimeService);
+            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
+            //var utcTimeService = new FakeUTCTimeService();
+            var utcTimeService = new Mock<IUTCTimeService>();
+            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
+            var timeResolver = new TimeResolver(utcTimeService.Object);
             //act
             var resolvedTimeForLondon = timeResolver.GetTime(CityEnum.London);
             Thread.Sleep(1500);
-            var currentTime = utcTimeService.GetTime();
             //assert
-            Assert.AreEqual(currentTime, resolvedTimeForLondon);
+            Assert.AreEqual(currentTimeUtc, resolvedTimeForLondon);
         }
+
+        [TestMethod]
+        public void TestGivenAValidTimeResolverWhenGetTimeForLondonIsCalledThenUTCTimeServiceGetDateIsCalled()
+        {
+            //arrange
+            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
+            //var utcTimeService = new FakeUTCTimeService();
+            var utcTimeService = new Mock<IUTCTimeService>();
+            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
+            var timeResolver = new TimeResolver(utcTimeService.Object);
+            //act
+            var resolvedTimeForLondon = timeResolver.GetTime(CityEnum.London);
+            Thread.Sleep(1500);
+            //assert
+            utcTimeService.Verify(x => x.GetTime(), Times.AtLeastOnce());
+        }
+
+        [TestMethod]
+        public void TestGivenAValidTimeResolverWhenGetTimeForNewYorkIsCalledThenTimeMatchesUtcMinus5Hours()
+        {
+            //arrange
+            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
+            //var utcTimeService = new FakeUTCTimeService();
+            var utcTimeService = new Mock<IUTCTimeService>();
+            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
+            var timeResolver = new TimeResolver(utcTimeService.Object);
+            //act
+            var resolvedTimeForNewYork = timeResolver.GetTime(CityEnum.NewYork);
+            var expectedResult = currentTimeUtc.AddHours(-5);
+            //assert
+            Assert.AreEqual(expectedResult, resolvedTimeForNewYork);
+        }
+
     }
 }
