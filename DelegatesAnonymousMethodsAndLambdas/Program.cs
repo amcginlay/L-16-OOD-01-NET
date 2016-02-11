@@ -8,23 +8,38 @@ namespace DelegatesAnonymousMethodsAndLambdas
 {
     class Program
     {
+
+        
         static void Main(string[] args)
         {
+            ITraveller traveller;
+            
             // classes through interface (extracted)
-            ITraveller traveller = new Walker();
+            traveller = new Walker();
             traveller.HeadNorth(23);
             traveller.HeadEast(2);
+            
+            traveller = new Jogger();
             traveller.HeadSouth(1);
             traveller.HeadNorth(6);
 
             // simple delegate use to define function pointer
             Direction action = traveller.HeadNorth;
             action.Invoke(55);
+
+            // re-use simple delegate with anonymos method
+            action = delegate(int x)
+            {
+                Console.WriteLine("anonymous method going somewhere {0} miles away", x);
+            };
+            action.Invoke(55);
+
+            // no need to use delegates now we have generic Action/Func classes
             Action<int> action2 = traveller.HeadSouth;
             action2.Invoke(555);
-
-            // lambda action, random dude walks x miles wherever he likes!
-            Action<int> action3 = x => Console.WriteLine("Random dude going somewhere, {0}", x);
+            
+            // lambda action random dude walks x miles wherever he likes!
+            Action<int> action3 = x => Console.WriteLine("lambda going somewhere {0} miles away", x);
             action3.Invoke(56);
 
             // simple lambda function (power 2)
