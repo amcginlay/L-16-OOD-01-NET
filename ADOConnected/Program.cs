@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ADOConnected
         static void Main(string[] args)
         {
             // ConnectionString
-            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.fdmgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=xe)));Pooling=false;User Id=alanmcginlay;Password=Oracle101;";
+            string connectionString = ConfigurationManager.ConnectionStrings["FDMOracle"].ToString();
             IBrokerRepository brokerRepository = new OracleSqlBrokerRepository(connectionString);
             brokerRepository.Refresh();
             foreach(Broker broker in brokerRepository.GetAllBrokers())
@@ -20,6 +21,26 @@ namespace ADOConnected
                     broker.id, 
                     broker.firstName, 
                     broker.lastName);
+            }
+
+            Console.WriteLine("Now add some new ones ... ");
+            while (true)
+            {
+                Console.Write("ID: ");
+                string id = Console.ReadLine();
+                Console.Write("First Name: ");
+                string firstName = Console.ReadLine();
+                Console.Write("Last Name: ");
+                string lastName = Console.ReadLine();
+
+                Broker newBroker = new Broker()
+                {
+                    id = int.Parse(id),
+                    firstName = firstName,
+                    lastName = lastName
+                };
+
+                brokerRepository.AddNewBroker(newBroker);
             }
         }
     }

@@ -10,5 +10,6 @@ namespace ADOConnected
     {
         void Refresh();
         List<Broker> GetAllBrokers();
+        void AddNewBroker(Broker brokerToAdd);
     }
 }
