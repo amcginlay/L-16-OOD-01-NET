@@ -117,6 +117,8 @@ namespace ADOConnected
             newRow["last_name"] = brokerToAdd.lastName;
             dataSet.Tables[0].Rows.Add(newRow);
 
+            // it's not clear from this code but we could make many changes to
+            // the dataset before submitting back to the database.
             connection.Open();
             da.Update(dataSet);
             connection.Close();
