@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOConnected", "ADOConnecte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkDemo", "EntityFrameworkDemo\EntityFrameworkDemo.csproj", "{EAC35C38-404C-46F3-8193-BC73A2EF6684}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyStandardLib", "DependencyStandardLib\DependencyStandardLib.csproj", "{3EB6D94D-8522-47FE-8B75-597EA90C10A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{EAC35C38-404C-46F3-8193-BC73A2EF6684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC35C38-404C-46F3-8193-BC73A2EF6684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC35C38-404C-46F3-8193-BC73A2EF6684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB6D94D-8522-47FE-8B75-597EA90C10A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB6D94D-8522-47FE-8B75-597EA90C10A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB6D94D-8522-47FE-8B75-597EA90C10A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB6D94D-8522-47FE-8B75-597EA90C10A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
