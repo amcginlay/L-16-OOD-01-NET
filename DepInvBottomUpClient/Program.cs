@@ -28,7 +28,7 @@ namespace DepInvBottomUpClient
             // -------------------------------------------------------------------------------------------
             // <---- BUT WHY DO THIS? ---->
             // The key-word here is "pluggability".  The CLIENT knows nothing about the Person class, 
-            // it only knows about IWork and how to instatiate an instance of a class which supports that
+            // it only knows about IWorker and how to instatiate an instance of a class which supports that
             // interface.  So when the time comes to replace the Person worker with, say, a Robot worker 
             // we don't need to modify any EXISTING code.  Instead, we write a new SERVER assembly, which
             // also depends upon the existing CLIENT assembly, into which we build the Robot class 
