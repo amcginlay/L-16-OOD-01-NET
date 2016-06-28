@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeZones;
 
-namespace TimesZonesTest
+namespace TimeZonesTest
 {
-    public class xFakeUTCTimeService : IUTCTimeService
+    public class FakeUTCTimeService : IUTCTimeService
     {
         public DateTime GetTime()
         {
-            return new DateTime(1900, 1, 1, 0, 0, 0);
+            return new DateTime(2000, 1, 1, 0, 0, 0);
         }
     }
 }

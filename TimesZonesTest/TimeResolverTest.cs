@@ -1,123 +1,90 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TimeZones;
-using System.Threading;
 using Moq;
+using System.Linq.Expressions;
 
-namespace TimesZonesTest
+namespace TimeZonesTest
 {
-    /// <summary>
-    /// Summary description for UnitTest1
-    /// </summary>
     [TestClass]
     public class TimeResolverTest
     {
-        public TimeResolverTest()
+        private Mock<IUTCTimeService> mockUtcTimeService;
+        private IUTCTimeService utcTimeService;
+        private Mock<IActivityLogger> mockActivityLogger;
+        private TimeResolver timeResolver;
+
+        [TestInitialize]
+        public void Initialise()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            //utcTimeService = new FakeUTCTimeService();
+            mockUtcTimeService = new Mock<IUTCTimeService>();
+            mockUtcTimeService.Setup(x => x.GetTime()).Returns(new DateTime(2000, 1, 1, 0, 0, 0));
+            utcTimeService = mockUtcTimeService.Object;
+
+            //IActivityLogger activityLogger = new ActivityLogger();
+            mockActivityLogger = new Mock<IActivityLogger>();
+
+            timeResolver = new TimeResolver(utcTimeService, mockActivityLogger.Object);
         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         [TestMethod]
         [ExpectedException(typeof(TimeZonesException))]
-        public void TestGivenATimeResolverWithANullUCTTimeServiceWhenConstructedThenExceptionIsThrown()
+        public void TestGivenATimeResolverWithANullUTCTimeServiceWhenConstructedThenExceptionIsThrown()
         {
-            //arrange
-            var timeResolver = new TimeResolver(null);
-            //act
-            //assert
+            // arrange
+            TimeResolver timeResolver = new TimeResolver(null, null); // HACK!!!!!
+            // act
+            // will not get here!
+            // assert
+            // will not get here!
         }
+
+        // TODO test for ActivityLogger == NULL
 
         [TestMethod]
         public void TestGivenAValidTimeResolverWhenGetTimeForLondonIsCalledThenTimeMatchesUtc()
         {
-            //arrange
-            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
-            //var utcTimeService = new FakeUTCTimeService();
-            var utcTimeService = new Mock<IUTCTimeService>();
-            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
-            var timeResolver = new TimeResolver(utcTimeService.Object);
-            //act
-            var resolvedTimeForLondon = timeResolver.GetTime(CityEnum.London);
-            Thread.Sleep(1500);
-            //assert
-            Assert.AreEqual(currentTimeUtc, resolvedTimeForLondon);
+            // arrange
+            // act
+            DateTime expected = utcTimeService.GetTime();
+            DateTime actual = timeResolver.GetTime(CityEnum.LONDON);
+            // assert
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestGivenAValidTimeResolverWhenGetTimeForLondonIsCalledThenUTCTimeServiceGetDateIsCalled()
+        public void TestGivenAValidTimeResolverWhenGetTimeForNewYorkIsCalledThenTimeMatchesUtcMinusFive()
         {
-            //arrange
-            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
-            //var utcTimeService = new FakeUTCTimeService();
-            var utcTimeService = new Mock<IUTCTimeService>();
-            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
-            var timeResolver = new TimeResolver(utcTimeService.Object);
-            //act
-            var resolvedTimeForLondon = timeResolver.GetTime(CityEnum.London);
-            Thread.Sleep(1500);
-            //assert
-            utcTimeService.Verify(x => x.GetTime(), Times.AtLeastOnce());
+            // arrange
+            // act
+            DateTime utc = utcTimeService.GetTime();
+            DateTime expected = utc.AddHours(-5);
+            DateTime actual = timeResolver.GetTime(CityEnum.NEWYORK);
+            // assert
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestGivenAValidTimeResolverWhenGetTimeForNewYorkIsCalledThenTimeMatchesUtcMinus5Hours()
+        public void TestGivenAValidTimeResolverWhenGetTimeForNewYorkIsCalledThenVerifyThatTimeServiceWasUsed()
         {
-            //arrange
-            var currentTimeUtc = new DateTime(2016, 1, 1, 0, 0, 0); //DateTime.Now;
-            //var utcTimeService = new FakeUTCTimeService();
-            var utcTimeService = new Mock<IUTCTimeService>();
-            utcTimeService.Setup(x => x.GetTime()).Returns(currentTimeUtc);
-            var timeResolver = new TimeResolver(utcTimeService.Object);
-            //act
-            var resolvedTimeForNewYork = timeResolver.GetTime(CityEnum.NewYork);
-            var expectedResult = currentTimeUtc.AddHours(-5);
-            //assert
-            Assert.AreEqual(expectedResult, resolvedTimeForNewYork);
+            // arrange
+            // act
+            DateTime utc = utcTimeService.GetTime(); // this call means call count is two!
+            DateTime expected = utc.AddHours(-5);
+            DateTime actual = timeResolver.GetTime(CityEnum.NEWYORK);
+            // verify
+            mockUtcTimeService.Verify(x => x.GetTime(), Times.Exactly(2));
         }
 
+        [TestMethod]
+        public void TestGivenAValidTimeResolverWhenGetTimeForLondonIsCalledThenVerifyThatActivityLoggerWasUsed()
+        {
+            // arrange
+            // act
+            DateTime actual = timeResolver.GetTime(CityEnum.LONDON);
+            // verify
+            mockActivityLogger.Verify(x => x.LogActivity(It.IsAny<string>()), Times.Once);
+        }
     }
 }
